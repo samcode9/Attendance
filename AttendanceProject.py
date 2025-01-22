@@ -40,11 +40,17 @@ def sendEmail(absentStudents,recipient_email):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
     server.login('sadongare7@gmail.com', 'arco jxzu gtzd rvwc')
-    msg = MIMEText('Absent Students:\n' + '\n'.join(absentStudents))
-    msg['Subject'] = 'Absent Students List'
+
+    msg = MIMEMultipart()
     msg['From'] = 'sadongare7@gmail.com'
     msg['To'] = 'sadongaredata@gmail.com'
-    server.send_message(msg)
+    msg['Subject'] = 'Absent Students List'
+
+    body = 'The following students were absent:\n' + '\n'.join(absentStudents)
+    msg.attach(MIMEText(body, 'plain'))
+
+    text = msg.as_string()
+    server.sendmail('sadongare7@gmail.com', 'sadongaredata@gmail.com', text)
     server.quit()
 
 # Main Code
@@ -96,4 +102,4 @@ cap.release()
 cv2.destroyAllWindows()
 
 absentStudents = getAbsentStudents()
-sendEmail(absentStudents, 'sadongaredata@gmail.com')
+sendAbsentStudentsEmail(absentStudents, 'sadongaredata@example.com')
