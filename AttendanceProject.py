@@ -39,7 +39,7 @@ def getAbsentStudents():
 def sendEmail(absentStudents,recipient_email):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login('sadongare7@gmail.com', 'arco jxzu gtzd rvwc')
+    server.login('sadongare7@gmail.com', 'PASSWORD')
     msg = MIMEText('Absent Students:\n' + '\n'.join(absentStudents))
     msg['Subject'] = 'Absent Students List'
     msg['From'] = 'sadongare7@gmail.com'
@@ -89,7 +89,11 @@ while True:
             markAttendance(name)
 
     cv2.imshow('Webcam', img)
-    if cv2.waitKey(10) == 13:
+
+    # Check for the Enter key or 'q' key to exit
+    key = cv2.waitKey(10) & 0xFF
+    if key == 13 or key == ord('q'):  # 13 is Enter, 'q' for manual exit
+        print("Stopping the system...")
         break
 
 cap.release()
